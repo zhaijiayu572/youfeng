@@ -1,6 +1,8 @@
 /* 引入操作路径模块和webpack */
 var path = require('path');
+var webpack=require('webpack');
 module.exports = {
+    devtool: 'eval-source-map',
     /* 输入文件 */
     entry: {
         adminUser:'./src/admin/user.js',
@@ -32,6 +34,13 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ]
 }
 
