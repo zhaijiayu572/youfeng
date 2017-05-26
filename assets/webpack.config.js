@@ -3,7 +3,11 @@ var path = require('path');
 module.exports = {
     /* 输入文件 */
     entry: {
-
+        adminUser:'./src/admin/user.js',
+        adminProduct:'./src/admin/product.js',
+        adminOrder:'./src/admin/order.js',
+        adminMessage:'./src/admin/message.js',
+        adminForm:'./src/admin/form.js'
     },
     output: {
         /* 输出目录，没有则新建 */
@@ -11,7 +15,7 @@ module.exports = {
         /* 静态目录，可以直接从这里取文件 */
         publicPath: '/dist/',
         /* 文件名 */
-        filename: 'build.js'
+        filename: '[name].js'
     },
     module: {
         rules: [
