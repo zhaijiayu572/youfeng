@@ -2,6 +2,7 @@
     <div id="#container">
         <yf-nav></yf-nav>
         <carousel></carousel>
+
     </div>
 </template>
 <script>
