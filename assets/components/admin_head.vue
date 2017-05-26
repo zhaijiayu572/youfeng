@@ -20,6 +20,6 @@
 </script>
 <style>
     #admin_nav{
-        background: #00f;
+        width: 100%;
     }
 </style>
