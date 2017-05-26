@@ -1,3 +1,6 @@
-/**
- * Created by tekiyowa on 2017/5/26.
- */
+import Vue from 'vue'
+import head from '../../components/admin_head.vue'
+new Vue({
+    el:'body',
+    render: h =>h(head)
+});
