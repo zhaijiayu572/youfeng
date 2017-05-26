@@ -7,6 +7,6 @@
   } 
   	public function aa(){
   		$a = $this->user_model->get_data();
-  		var_dump($a);
+  		var_dump(json_encode($a));
   }
 }
