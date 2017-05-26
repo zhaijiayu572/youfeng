@@ -21,5 +21,8 @@
 <style>
     #admin_nav{
         width: 100%;
+        height: 45px;
+        background: #000;
+        padding: 10px;
     }
 </style>
