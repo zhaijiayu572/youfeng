@@ -2,10 +2,12 @@
 var path = require('path');
 module.exports = {
     /* 输入文件 */
-    entry: './main.js',
+    entry: {
+
+    },
     output: {
         /* 输出目录，没有则新建 */
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, './js'),
         /* 静态目录，可以直接从这里取文件 */
         publicPath: '/dist/',
         /* 文件名 */

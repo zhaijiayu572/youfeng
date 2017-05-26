@@ -9,7 +9,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 05/23/2017 15:00:58 PM
+ Date: 05/26/2017 12:01:15 PM
 */
 
 SET NAMES utf8;
@@ -97,6 +97,8 @@ CREATE TABLE `t_order` (
   `trade_no` int(50) NOT NULL COMMENT '订单交易号',
   `order_memo` varchar(500) NOT NULL COMMENT '订单备注',
   `order_payway` varchar(255) NOT NULL COMMENT '订单方式',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '订单创建时间',
+  `finish_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '订单完成时间',
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
