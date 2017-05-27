@@ -9,4 +9,7 @@
   		$a = $this->user_model->get_data();
   		var_dump(json_encode($a));
   }
+    public function test(){
+  	    $this->load->view('admin/test');
+    }
 }
