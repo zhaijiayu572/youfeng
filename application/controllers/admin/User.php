@@ -6,4 +6,10 @@
         parent::__construct();
         $this->load->model('user_model');
     }
+    public function is_login(){
+        echo 'login';
+    }
+    public function test(){
+        $this->load->view('admin/test');
+    }
  }
