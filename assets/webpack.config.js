@@ -15,7 +15,7 @@ module.exports = {
         /* 输出目录，没有则新建 */
         path: path.resolve(__dirname, './js'),
         /* 静态目录，可以直接从这里取文件 */
-        publicPath: '/dist/',
+        // publicPath: '/dist/',
         /* 文件名 */
         filename: '[name].js'
     },
@@ -32,6 +32,12 @@ module.exports = {
                 loader: 'babel-loader',
                 /* 排除模块安装目录的文件 */
                 exclude: /node_modules/
+            },
+            {
+        // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
+        // 如下配置，将小于8192byte的图片转成base64码
+                test: /\.(png|jpg|gif)$/,
+                loader: 'url-loader?limit=8192&name=assets/img/[name].[ext]',
             }
         ]
     },
