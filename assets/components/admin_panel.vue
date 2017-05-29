@@ -79,7 +79,7 @@
                     }
                 } 
             },
-            togglePanel:function(){
+            togglePanel:function(){   //切换侧边栏的显示和隐藏
                 this.hidden = !this.hidden;
             }
         }
