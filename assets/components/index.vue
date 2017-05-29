@@ -1,12 +1,13 @@
 <template>
     <div id="#container">
-        <yf-nav></yf-nav>
-        <carousel></carousel>
-
+        <head></head>
+        <panel></panel>
     </div>
 </template>
 <script>
+    import head from './admin_head.vue'
+    import panel from './admin_panel.vue'
     export default{
-        components:[]
+        components:[head,panel]
     }
 </script>
