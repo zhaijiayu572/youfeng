@@ -6,6 +6,7 @@ class Product extends CI_Controller{
        parent::__construct();
        $this->load->model('Product_model');
    }
+   //测试前台数据显示分页
     public function chun(){
        $allnum = $this->Product_model->do_getAllnum();
        $page = $this->uri->segment(4)==null?1:$this->uri->segment(4);
