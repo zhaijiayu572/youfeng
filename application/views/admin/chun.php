@@ -42,6 +42,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             <th width="100">库存量</th>
         </tr>
         </thead>
+        //后台数据循环输出
         <?php foreach ($product as $key=>$value)
         {
             ?>
