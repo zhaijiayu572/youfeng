@@ -87,9 +87,12 @@
 </script>
 <style>
     #panel-container{
-        position:relative;
+        position:absolute;
+        left:0;
+        top:0;
         width:230px;
         height:100%;
+        min-height:800px;
     }
     .controll-btn{
         margin-top:100px;
