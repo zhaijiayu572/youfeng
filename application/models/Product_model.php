@@ -6,9 +6,11 @@ class Product_model extends CI_Model{
     {
         parent::__construct();
     }
+    //获取总行数
     public function do_getAllnum(){
         return $this->db->count_all('t_product');
     }
+    //获取产品、传分页参数
     public function get_product($page,$perpage){
         $this->db->limit($perpage,($page-1)*$perpage);
         $this->db->select("*");
