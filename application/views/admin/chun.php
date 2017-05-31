@@ -63,6 +63,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
         ?>
     </table>
+    //创建分页链接
     <div id="link">
         <?php
         echo $this->pagination->create_links();
