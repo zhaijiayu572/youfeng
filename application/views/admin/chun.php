@@ -26,7 +26,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 </head>
 <body>
 <div id="container">
-
     <h4>产品库存查询</h4>
     <table class="table table-border table-bordered table-bg table-hover table-sort">
         <thead>
