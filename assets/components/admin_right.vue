@@ -9,10 +9,12 @@
     </div>
 </template>
 <style lang="scss">
-
+    .right_box{
+        
+    }
 </style>
 <script>
 export default{
-
+    
 }
 </script>
