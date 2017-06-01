@@ -1,16 +1,18 @@
 <?php
  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  class User extends CI_Controller{
-    public function __construct(){  
+    public function User(){  
 	    parent::__construct();
 	    $this->load->model('user_model'); 
   } 
-  	public function aa(){
-  		$a = $this->user_model->get_data();
-  		var_dump(json_encode($a));
+  	public function email(){
+  		$this->load->library('email');
+  		$this->email->sendMail('939408507@qq.com',"8520");
   }
     public function test(){
   	    $this->load->view('admin/test');
     }
+     public function index(){
+         $this->load->view('admin/user');
+     }
 }
-?>
