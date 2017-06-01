@@ -1,13 +1,17 @@
 <template>
     <div id="message-page">
+    <!-- 页面头部-->
         <admin-head></admin-head>
         <div id="container">
+        <!-- 侧边栏-->
             <admin-panel></admin-panel>
+            <!-- 头部的导航 -->
             <h2 class="panel-name">
                     <a href="#">首页</a>
                     /
                     <a href="#">私信管理</a>
                 </h2>
+            <!-- 私信展示栏-->
             <div class="message-panel">
                 <ul class="msg-list">
                     <li>
@@ -26,14 +30,24 @@
                             
                             <div class="fun-list">
                                 <span class="delete">删除</span>
-                                <span class="reply">回复</span>
+                                <span class="reply" @click="replyOpen">回复</span>
                             </div>
                         </div>
-                        
-                    </li>
+                      </li>
                 </ul>                
             </div>
-
+            <!-- 回复栏-->
+            <div class="reply-container" v-show="replyShow">
+                <div class="top">
+                    <span class="title">回复:hello</span>
+                    <span class="close-btn" @click="replyClose">X</span>
+                </div>
+                <div class="reply-body">
+                    <textarea class="reply-content"></textarea>
+                    <button class="reply-btn">回复</button>
+                </div>
+            </div>
+                    
         </div>
     </div>
     
@@ -46,6 +60,21 @@
         components:{
             adminHead:head,
             adminPanel:panel
+        },
+        data:function(){
+            return {
+                replyShow:false,    //控制回复框的显示和隐藏
+                replyTo:{},           //回复的人的信息
+                messageList:[],       //存放所有私信的对象
+            }
+        },
+        methods:{
+            replyClose:function(){          //关闭回复框
+                this.replyShow = false;
+            },
+            replyOpen:function(){             //显示回复框
+                this.replyShow = true;
+            }
         }
     }
 </script>
@@ -71,6 +100,9 @@
         font-size:15px;
         line-height:50px;
         padding-left:5px;
+    }
+    .msg-list li{
+        margin-top:5px;
     }
    .msg-list li .msg-container{
         width:400px;
@@ -133,5 +165,53 @@
     }
     .fun-list span.reply{
         background: #449d44;
+    }
+    /* 回复栏的样式 */
+    .reply-container{
+        width:300px;
+        height:200px;
+        padding: 0 10px 10px; 
+        position: fixed;
+        right: 100px;
+        top:30%;
+       
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        background: #29303f;
+    }
+    .reply-container .top{
+        width: auto;
+        padding: 5px 10px;
+        overflow: hidden
+    }
+    .reply-container .top .title{
+        font-size:15px;
+        float: left;
+        color: #fff;
+    }
+    .reply-container .top .close-btn{
+        float: right;
+    }
+    .reply-container .reply-body{
+        width: 100%;    
+    }
+    .reply-body .reply-content{
+        width: 95%;
+        padding: 5px;
+        height: 130px;
+        box-shadow: 1px 1px 1px #ccc;
+        border-radius: 5px;
+        border: none;
+    }
+    .reply-body .reply-btn{
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        float: right;
+        margin-right:10px;
+        background: #449d44;
+        padding: 5px 8px;
+        color: #fff;
+        margin-top: 10px; 
     }
 </style>
