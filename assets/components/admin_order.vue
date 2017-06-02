@@ -1,8 +1,7 @@
 <template>
    <div id="order">
-        <admin-head></admin-head>
-        <admin-panel></admin-panel>
-        <admin-right></admin-right>
+      
+        <admin-right :props="msg"></admin-right>
    </div>
 </template>
 <style lang="scss">
@@ -19,6 +18,16 @@
             adminHead:head,
             adminPanel:panel,
             adminRight:right
+        },
+        data:function(){
+            return {
+                msg:{
+                    "title_main":"hahah",
+                    "title_sub":"xixi",
+                    "search_placeholder":"输入搜索的订单号",
+                    "search_url":"",
+                    }
+            }
         }
     }
 </script>
