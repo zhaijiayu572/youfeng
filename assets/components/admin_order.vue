@@ -1,7 +1,10 @@
 <template>
    <div id="order">
       
-        <admin-right :props="msg"></admin-right>
+        <admin-right :props="msg">
+            <span slot="delete"  class="contet_delete">批量删除</span>
+            <span slot="add"  class="content_add">添加</span>
+        </admin-right>
    </div>
 </template>
 <style lang="scss">
