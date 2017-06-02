@@ -10,6 +10,8 @@
                     <a href="#">首页</a>
                     /
                     <a href="#">私信管理</a>
+                    /
+                    <a href="#">未回复</a>
                 </h2>
             <!-- 私信展示栏-->
             <div class="message-panel">
@@ -29,8 +31,8 @@
                             </div>
                             
                             <div class="fun-list">
-                                <span class="delete">删除</span>
-                                <span class="reply" @click="replyOpen(data)">回复</span>
+                                <span class="delete" @click="deleteMsg(index)">删除</span>
+                                <span class="reply" @click="replyOpen(index)">回复</span>
                             </div>
                         </div>
                       </li>
@@ -87,7 +89,7 @@
         methods:{
             init:function(){          //进行数据的初始化
                 var _this = this;
-                axios.get('admin/message/get_all_num')
+                axios.get('admin/message/get_all_unreply_num')
                     .then(function(res){
                         _this.pageNum = Math.ceil(res.data/_this.perPage);
                         if(_this.pageNum>1){      //根据总页数判断是否显示下一页 
@@ -110,11 +112,12 @@
                 this.replyShow = false;
                 this.replyContent = '';
             },
-            replyOpen:function(data){             //显示回复框
-                if(data != this.replyTo){
+            replyOpen:function(index){             //显示回复框
+                if(this.messageList[index] != this.replyTo){
                     this.replyContent = '';
                 }
-                this.replyTo = data;        //进行回复对象的赋值
+                this.replyTo = this.messageList[index];        //进行回复对象的赋值
+                this.replyTo.index = index;
                 this.replyShow = true;
             },
             reply:function(){       //回复
@@ -124,8 +127,26 @@
                 params.append('message_id',this.replyTo.message_id);
                 axios.post('admin/message/reply', params)
                     .then(function(res){
-                        console.log(res.data);
-                    }) 
+                        if(res.data == "success"){
+                            alert("回复成功");
+                            this.replyClose();
+                            this.messageList.splice(this.replyTo.index,1);
+                        }else{
+                            alert("回复失败，请重试");
+                        }
+                    }.bind(this)) 
+            },
+            deleteMsg:function(index){        //删除消息
+                var deleteObj = this.messageList[index];
+                axios.get('admin/message/delete?message_id='+deleteObj.message_id)
+                    .then(function(res){
+                        if(res.data == 'success'){
+                            alert("删除成功");
+                            this.messageList.splice(index,1);
+                        }else{
+                            alert("删除失败");
+                        }
+                    }.bind(this))
             }
         }
     }
