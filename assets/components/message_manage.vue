@@ -14,23 +14,23 @@
             <!-- 私信展示栏-->
             <div class="message-panel">
                 <ul class="msg-list">
-                    <li>
+                    <li v-for="(data,index) in messageList">
                         <div class="msg-container">
                             <div class="msg-top">
-                                <span class="user-name">hello</span>
+                                <span class="user-name">{{ data.user_name }}</span>
                                 <span class="date">2014-12-12</span>
                             </div>
                             <div class="msg-content">
-                                <h3 class="msg-title">你好，测试</h3>
+                                <h3 class="msg-title">{{ data.message_title }}</h3>
                                 <p class="msg-body">
-                                    这是我的测试数据
+                                    {{ data.message_content }}
                                 </p>
                                 <a href="#" class="show-more">显示更多</a>
                             </div>
                             
                             <div class="fun-list">
                                 <span class="delete">删除</span>
-                                <span class="reply" @click="replyOpen">回复</span>
+                                <span class="reply" @click="replyOpen(data)">回复</span>
                             </div>
                         </div>
                       </li>
@@ -39,24 +39,31 @@
             <!-- 回复栏-->
             <div class="reply-container" v-show="replyShow">
                 <div class="top">
-                    <span class="title">回复:hello</span>
+                    <span class="title">回复:{{ replyTo.user_name }}</span>
                     <span class="close-btn" @click="replyClose">X</span>
                 </div>
                 <div class="reply-body">
-                    <textarea class="reply-content"></textarea>
-                    <button class="reply-btn">回复</button>
+                    <textarea class="reply-content" v-model="replyContent"></textarea>
+                    <button class="reply-btn" @click="reply">回复</button>
                 </div>
             </div>
-                    
+            <div class="control-panel">
+                <span class="last" v-show="">下一页</span>
+                <span class="next">上一页</span>
+            </div>
         </div>
     </div>
     
 </template>
 <script>
     //后台管理私信的组件
+    import axios from 'axios';
     import head from './admin_head.vue';
     import panel from './admin_panel.vue';
     export default{
+        created:function(){
+            this.init();
+        },
         components:{
             adminHead:head,
             adminPanel:panel
@@ -65,15 +72,60 @@
             return {
                 replyShow:false,    //控制回复框的显示和隐藏
                 replyTo:{},           //回复的人的信息
+                replyContent:'',      //回复的内容
                 messageList:[],       //存放所有私信的对象
+                pageNum:0,
+                perPage:10,
+                index:0,
+                controlPanel:{           //控制上一页和下一页的显示
+                    lastShow:false,
+                    nextShow:false
+                }
+                
             }
         },
         methods:{
+            init:function(){          //进行数据的初始化
+                var _this = this;
+                axios.get('admin/message/get_all_num')
+                    .then(function(res){
+                        _this.pageNum = Math.ceil(res.data/_this.perPage);
+                        if(_this.pageNum>1){      //根据总页数判断是否显示下一页 
+                            _this.controlPanel.nextShow = true;   
+                        }
+                        _this.getMessage(_this.index);
+                    })
+            },
+            getMessage:function(index){         //获取消息 index是当前的位置
+                axios.get('admin/message/get_message',{
+                    params:{
+                        perPage:this.perPage,
+                        index:index
+                    } 
+                }).then(function(res){
+                    this.messageList = res.data;       //数据的渲染
+                }.bind(this))
+            },
             replyClose:function(){          //关闭回复框
                 this.replyShow = false;
+                this.replyContent = '';
             },
-            replyOpen:function(){             //显示回复框
+            replyOpen:function(data){             //显示回复框
+                if(data != this.replyTo){
+                    this.replyContent = '';
+                }
+                this.replyTo = data;        //进行回复对象的赋值
                 this.replyShow = true;
+            },
+            reply:function(){       //回复
+                var params = new URLSearchParams();
+                params.append('replyContent', this.replyContent);
+                params.append('user_id', this.replyTo.user_id);
+                params.append('message_id',this.replyTo.message_id);
+                axios.post('admin/message/reply', params)
+                    .then(function(res){
+                        console.log(res.data);
+                    }) 
             }
         }
     }
@@ -213,5 +265,8 @@
         padding: 5px 8px;
         color: #fff;
         margin-top: 10px; 
+    }
+    .control-panel{
+        text-align:right;
     }
 </style>
