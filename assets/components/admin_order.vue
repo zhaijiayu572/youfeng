@@ -33,7 +33,7 @@
                     "title_main":"订单",//一级标题
                     "title_sub":"订单管理",//二级标题
                     "search_placeholder":"输入搜索的订单号",//搜索提示
-                    "search_url":"order/getInfor",//搜索地址
+                    "search_url":"order/searchInfor",//搜索地址
                     "totalNum_url":"order/allNum",//取得全部数据地址
                     "talble_items":table_items,//表单列表项
                     },

@@ -29,6 +29,12 @@
                     
                 </tr>
              </table>
+             <span>共{{Math.ceil(this.totalNum/this.pageNum)}}页</span>
+             <span>首页</span>
+             <span>上一页</span>
+             <span>下一页</span>
+             <span>尾页</span>
+             <span>当前第{{page}}页</span>
           </div>
        </div>
 
@@ -122,7 +128,7 @@ import axios from "axios";
 axios.defaults.baseURL = 'admin/';
 export default{
     created:function(){
-        this.do_totalNum();
+        this.do_totalNum();//计算数据总数
     },
     props:['props'],
     data:function(){
@@ -131,6 +137,8 @@ export default{
             totalNum: 0,//所有信息数量
             dataList: [],//信息内容
             value:"",//搜索框中的值
+            page:"1",
+            pageNum:"5",
             };
     },
     computed:{
@@ -148,8 +156,10 @@ export default{
 
         },
         search:function(){
+            //search的时候只需要查询一页的数据
             var prams = new FormData();
             prams.append("value",this.value);
+            prams.append("pageNum",this.pageNum);
             axios.post(this.data.search_url,prams).then(function(data){
                 this.dataList = data.data;
             }.bind(this));

@@ -11,13 +11,15 @@
     }
 
     public function allNum(){
-      $value = $this->input->post("value");      
+      $value = $this->input->post("value");      //模糊查询条件
       $rs = $this->order_model->do_allNum($value);
       echo $rs;
     }
 
-    public function getInfor(){
-      $value = $this->input->post("value");
+    public function searchInfor(){
+      $value = $this->input->post("value");//模糊查询条件
+      $pageNum = $this->input->post("pageNum");
+
       echo $value;
     }
 
