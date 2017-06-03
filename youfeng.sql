@@ -9,7 +9,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 05/26/2017 12:01:15 PM
+ Date: 06/03/2017 15:59:12 PM
 */
 
 SET NAMES utf8;
@@ -80,9 +80,19 @@ CREATE TABLE `t_message` (
   `user_id` int(11) DEFAULT NULL,
   `message_title` varchar(255) DEFAULT NULL COMMENT '留言标题',
   `message_content` varchar(255) DEFAULT NULL COMMENT '留言内容',
-  `message_type` varchar(255) DEFAULT NULL COMMENT '留言类型',
+  `message_type` varchar(255) DEFAULT NULL COMMENT '留言类型（0表示用户给管理员私信，1表示管理员给用户的回信）',
+  `reply_message_id` int(11) NOT NULL COMMENT '回复的私信的id',
+  `status` int(11) NOT NULL COMMENT '状态（0表示未被回复，1表示已经被回复）',
+  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '私信添加的时间',
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `t_message`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_message` VALUES ('1', '10', '12312', 'dasdsad', '0', '0', '0', '2017-06-03 15:55:08'), ('2', '110', 'oool', 'dasdsa', '0', '0', '0', '2017-06-03 15:55:08'), ('3', '10', '管理员回复', 'hello', '1', '1', '0', '2017-06-03 15:55:08'), ('7', '10', '管理员回复', 'hello world', '1', '1', '0', '2017-06-03 15:55:08'), ('8', '110', '管理员回复', 'hello man', '1', '2', '0', '2017-06-03 15:55:08'), ('9', '10', 'dasdasd', 'dsadsadas', '0', '0', '0', '2017-06-03 15:55:08');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `t_order`
@@ -146,6 +156,13 @@ CREATE TABLE `t_user` (
   `user_email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `user_qq` varchar(255) DEFAULT NULL COMMENT 'qq',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `t_user`
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_user` VALUES ('10', 'aaaa', '123', null, null, 'zhangsan', null, null, null, null), ('110', 'dddd', '123', null, null, 'lisi', null, null, null, null);
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
