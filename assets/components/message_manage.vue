@@ -20,7 +20,7 @@
                         <div class="msg-container">
                             <div class="msg-top">
                                 <span class="user-name">{{ data.user_name }}</span>
-                                <span class="date">2014-12-12</span>
+                                <span class="date">{{ data.add_time }}</span>
                             </div>
                             <div class="msg-content">
                                 <h3 class="msg-title">{{ data.message_title }}</h3>
@@ -42,7 +42,7 @@
             <div class="reply-container" v-show="replyShow">
                 <div class="top">
                     <span class="title">回复:{{ replyTo.user_name }}</span>
-                    <span class="close-btn" @click="replyClose">X</span>
+                    <span class="close-btn" @click="replyClose"><img src="../img/close-btn.gif" alt=""></span>
                 </div>
                 <div class="reply-body">
                     <textarea class="reply-content" v-model="replyContent"></textarea>
@@ -50,8 +50,8 @@
                 </div>
             </div>
             <div class="control-panel">
-                <span class="last" v-show="">下一页</span>
-                <span class="next">上一页</span>
+                <span class="next" v-show="controlPanel.lastShow" @click="showLast">上一页</span>
+                <span class="last" v-show="controlPanel.nextShow" @click="showNext">下一页</span>
             </div>
         </div>
     </div>
@@ -77,7 +77,7 @@
                 replyContent:'',      //回复的内容
                 messageList:[],       //存放所有私信的对象
                 pageNum:0,
-                perPage:10,
+                perPage:1,
                 index:0,
                 controlPanel:{           //控制上一页和下一页的显示
                     lastShow:false,
@@ -146,7 +146,23 @@
                         }else{
                             alert("删除失败");
                         }
-                    }.bind(this))
+                    }.bind(this));
+            },
+            showNext:function(){    //显示下一页
+                this.index++;
+                this.controlPanel.lastShow = true;
+                if(this.index == this.pageNum-1){
+                    this.controlPanel.nextShow = false;
+                }
+                this.getMessage(this.index);
+            },
+            showLast:function(){          //显示上一页
+                this.index--;
+                this.controlPanel.nextShow = true;
+                if(this.index == 0){
+                    this.controlPanel.lastShow = false;
+                }
+                this.getMessage(this.index);
             }
         }
     }
@@ -265,6 +281,10 @@
     .reply-container .top .close-btn{
         float: right;
     }
+    .reply-container .top .close-btn img{
+        width:15px;
+        height:15px;
+    }
     .reply-container .reply-body{
         width: 100%;    
     }
@@ -288,6 +308,16 @@
         margin-top: 10px; 
     }
     .control-panel{
-        text-align:right;
+        float:right;
+        margin-right:200px;
+    }
+    .control-panel span{
+        display:inline-block;
+        padding:5px 10px;
+        margin:10px;
+        background:#449d44;
+        border-radius:5px;
+        cursor:pointer;
+        color:#fff;
     }
 </style>

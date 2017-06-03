@@ -2,7 +2,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  class Message_model extends CI_Model{
     public function count_all_unreply_message(){
-        return $this->db->from('t_message')->where('message_type',0)->where('status')
+        return $this->db->from('t_message')->where('message_type',0)->where('status',0)
             ->count_all_results();
     }
     public function get_message($index,$perPage){
