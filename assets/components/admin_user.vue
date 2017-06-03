@@ -8,10 +8,10 @@
             </div>
             <div id="select">
                 <div class="center">
-                    <input type="text" id="input1" placeholder="请输入手机号"><button id="btn1">检索信息</button>
+                    <input type="text" id="input1" placeholder="请输入手机号"><button class="btn1" @click="isShow">检索信息</button>
                 </div>
             </div>
-            <table border="1">
+            <table v-show="show1">
                 <tr>
                     <td>用户公司</td>
                     <td>用户名称</td>
@@ -24,9 +24,16 @@
                     <td>222</td>
                     <td>333</td>
                     <td>444</td>
-                    <td><button>重置密码</button></td>
+                    <td><button class="btn1" @click="ale">重置密码</button></td>
                 </tr>
             </table>
+            <div id="mask" v-show="show2">
+                <div class="con-bg">
+                    <p class="con-p">提示</p>
+                    <div class="con-body">是否将用户的密码重置</div>
+                    <div class="con-footer"><button class="con-yes" @click="changepass_yes">确认</button><button class="con-no" @click="changepass_no">取消</button></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -34,11 +41,37 @@
 <script>
     import head from './admin_head.vue'
     import panel from './admin_panel.vue'
+    import axios from 'axios'
     export default{
+        data:function(){
+            return{
+                show1:false,
+                show2:false
+            }
+        },
         components:{
             'adminHead':head,
             'adminPanel':panel
+        },
+        methods:{
+            ale(){
+                this.show2 = true;
+            },
+            isShow(){
+               this.show1 = true;
+            },
+            changepass_yes(){
+                axios.get('admin/user/getMsg').then(function(res){
+                    console.log(res.data);
+                })
+            },
+            changepass_no(){
+                this.show2 = false
+            }
         }
+    }
+    window.confirm = function(){
+
     }
 </script>
 
@@ -76,7 +109,7 @@
         height: auto;
         line-height: 60px;
     }
-    #btn1{
+    .btn1{
         margin-left: 5px;
         display: inline-block;
         padding: 6px 12px;
@@ -100,19 +133,19 @@
         background-color: #5cb85c;
         border-color: #4cae4c;
     }
-    #btn1:focus,
-    #btn1.focus {
+    .btn1:focus,
+    .btn1.focus {
         color: #fff;
         background-color: #449d44;
         border-color: #255625;
     }
-    #btn1:hover {
+    .btn1:hover {
         color: #fff;
         background-color: #449d44;
         border-color: #398439;
     }
-    #btn1:active,
-    #btn1.active {
+    .btn1:active,
+    .btn1.active {
         background-image: none;
         outline: 0;
         -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
@@ -155,8 +188,55 @@
         border: 0;
     }
     table{
-        width: 600px;
-        height: 200px;
-        border: 1px solid #00CC00;
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 45px;
+    }
+    table td{
+        border: 1px solid #c5bcbc;
+        padding: 10px;
+        line-height: 20px;
+        text-align: center;
+    }
+    #mask{
+        top: 0px;
+        left: 0px;
+        position: fixed;
+        width: 100%;
+        height: 700px;
+        background-color: rgba(249,249,242,0.3);
+        z-index: 5;
+    }
+    .con-bg{
+        z-index: 5;
+        position: fixed;
+        width: 350px;
+        height: 150px;
+        border: 1px solid #999;
+        top: 100px;
+        left: 40%;
+        background-color: rgba(255,255,255,1);
+    }
+    .con-p{
+        background-color: rgba(204,204,204,1);
+        color: rgba(255,255,255,1);
+        font-size: 15px;
+        line-height: 30px;
+        padding-left: 10px;
+    }
+    .con-body{
+        height: 50px;
+        text-align: center;
+        color: rgba(21,24,27,1);
+        font-size: 16px;
+        padding-top: 30px;
+    }
+    .con-yes, .con-no{
+        background-color: rgba(204,204,204,1);
+        color: rgba(255,255,255,1);
+        width: 60px;
+        height: 30px;
+        margin-left: 20.6%;
+        border-radius: 5px;
     }
 </style>
