@@ -9,7 +9,9 @@
     <title>订单管理</title>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+    
+    </div>
     <script src="./assets/js/adminOrder.js"></script>
 
 </body>
