@@ -18,9 +18,10 @@
 
     public function searchInfor(){
       $value = $this->input->post("value");//模糊查询条件
-      $pageNum = $this->input->post("pageNum");
-
-      echo $value;
+      $pageNum = $this->input->post("pageNum");//每页显示的数量
+      $page = $this->input->post("page");
+      $rs = $this->order_model->do_searchInfor($value,$pageNum,$page);
+      echo json_encode($rs);
     }
 
 

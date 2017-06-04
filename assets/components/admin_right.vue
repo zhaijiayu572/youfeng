@@ -12,7 +12,7 @@
        </div>
        <div class="right_content">
           <div class="content_title">
-             <slot name="delete"></slot>
+             <slot name="delete">asd</slot>
              <slot name="add"></slot>
              <span>共有数据：{{totalNum}}条</span>
           </div>
@@ -21,20 +21,24 @@
                 <tr>
                    <td><input type="checkbox"></td>
                    <td v-for="item in data.talble_items" class="table_title">
-                      {{item.trim()}}
+                      {{item[0].trim()}}
                    </td>
                 </tr>
                 <tr v-for="list in dataList">
-                    <td><input type="checkbox"></td>
-                    
+                    <td><input type="checkbox" :value="list[data.talble_items[0][1]]"></td>
+                    <td v-for="item in data.talble_items">
+                        {{list[item[1]]}}
+                    </td>
                 </tr>
              </table>
-             <span>共{{Math.ceil(this.totalNum/this.pageNum)}}页</span>
-             <span>首页</span>
-             <span>上一页</span>
-             <span>下一页</span>
-             <span>尾页</span>
-             <span>当前第{{page}}页</span>
+             <template v-if="this.data.pageNum != false">
+                <span>共{{Math.ceil(this.totalNum/this.data.pageNum)}}页</span>
+                <span @click="first_page">首页</span>
+                <span @click="pre_page">上一页</span>
+                <span @click="next_page">下一页</span>
+                <span @click="last_page">尾页</span>
+                <span>当前第{{page}}页</span>
+             </template>
           </div>
        </div>
 
@@ -118,7 +122,17 @@
                         font-size:$fontSize;
                     }
                 }
-
+                span{
+                    display:inline-block;
+                    height: 26px;
+                    line-height: 26px;
+                    text-decoration: none;
+                    margin: 20px 0 6px 6px;
+                    padding: 0 10px;
+                    font-size: 14px;
+                    cursor:pointer;
+                    border: 1px solid #ccc;
+                }
             }
         }
     }
@@ -129,6 +143,7 @@ axios.defaults.baseURL = 'admin/';
 export default{
     created:function(){
         this.do_totalNum();//计算数据总数
+        this.search();//提取数据
     },
     props:['props'],
     data:function(){
@@ -138,7 +153,6 @@ export default{
             dataList: [],//信息内容
             value:"",//搜索框中的值
             page:"1",
-            pageNum:"5",
             };
     },
     computed:{
@@ -152,18 +166,43 @@ export default{
                 this.totalNum = data.data;
             }.bind(this));
         },
-        do_getInfor:function(){
-
-        },
         search:function(){
-            //search的时候只需要查询一页的数据
-            var prams = new FormData();
-            prams.append("value",this.value);
-            prams.append("pageNum",this.pageNum);
-            axios.post(this.data.search_url,prams).then(function(data){
-                this.dataList = data.data;
-            }.bind(this));
+            //search的时候查询的数据
+            if(this.data.pageNum){//如果需要分页
+                var prams = new FormData();
+                prams.append("value",this.value);
+                prams.append("pageNum",this.data.pageNum);
+                prams.append("page",this.page);
+                axios.post(this.data.search_url,prams).then(function(data){
+                    this.dataList = data.data;
+                    console.log(this.dataList);
+                }.bind(this));
+            }else{//如果不需要分页
+                axios.post(this.data.search_url).then(function(data){
+                    this.dataList = data.data;
+                }.bind(this));
+            }           
            this.do_totalNum();      
+        },
+        first_page:function(){
+            this.page = "1";
+            this.search();
+        },
+        last_page:function(){
+            this.page = Math.ceil(this.totalNum/this.data.pageNum);
+            this.search();
+        },
+        pre_page:function(){
+            if(this.page > 1){
+                this.page = this.page-1;
+                this.search();
+            }     
+        },
+        next_page:function(){
+            if(this.page < Math.ceil(this.totalNum/this.data.pageNum)){
+                this.page = parseInt(this.page)+1;
+                this.search();
+            }          
         },
     }
 
