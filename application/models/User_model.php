@@ -9,26 +9,16 @@ class User_model extends CI_Model
      * @param $phone
      * @return mixed
      */
-    public function get_email($phone)
-    {           
-        $query = $this->db->query("select user_email from t_user where user_phone = {$phone}");
-        $email = $query->row();
-        return $email;
-    }
-    public function get_company($phone){
-        $query = $this->db->query("select user_company from t_user where user_phone = {$phone}");
-        $company = $query->row();
-        return $company;
-    }
-    public function get_phone($phone){
-        $query = $this->db->query("select user_phone from t_user where user_phone = {$phone}");
-        $phone = $query->row();
-        return $phone;
-    }
-    public function get_name($phone){
-        $query = $this->db->query("select user_name from t_user where user_phone = {$phone}");
-        $name = $query->row();
-        return $name;
+    public function get_msg($phone){
+        $this->db->select("*");
+        $this->db->from("t_user");
+        $this->db->where("user_phone = $phone");
+        $query = $this->db->get()->result();
+        if($query != []){
+            return $query;
+        }else{
+            return false;
+        }
     }
     public function change_pass(){
         $new_pass = "";

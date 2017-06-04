@@ -8,10 +8,11 @@
             </div>
             <div id="select">
                 <div class="center">
-                    <input type="text" id="input1" placeholder="请输入手机号"><button class="btn1" @click="isShow">检索信息</button>
+                    <input type="text" id="input1" v-model="selectPhone" placeholder="请输入手机号" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    <button class="btn1" @click="isShow">检索信息</button>
                 </div>
             </div>
-            <table v-show="show1">
+            <table v-show="tableShow">
                 <tr>
                     <td>用户公司</td>
                     <td>用户名称</td>
@@ -20,18 +21,39 @@
                     <td>操作</td>
                 </tr>
                 <tr>
-                    <td>111</td>
-                    <td>222</td>
-                    <td>333</td>
-                    <td>444</td>
+                    <td>{{userCompany}}</td>
+                    <td>{{userName}}</td>
+                    <td>{{userPhone}}</td>
+                    <td>{{userEmail}}</td>
                     <td><button class="btn1" @click="ale">重置密码</button></td>
                 </tr>
             </table>
-            <div id="mask" v-show="show2">
+            <div class="mask" v-show="changeMaskShow">
                 <div class="con-bg">
                     <p class="con-p">提示</p>
                     <div class="con-body">是否将用户的密码重置</div>
                     <div class="con-footer"><button class="con-yes" @click="changepass_yes">确认</button><button class="con-no" @click="changepass_no">取消</button></div>
+                </div>
+            </div>
+            <div class="mask" v-show="emailMaskShow">
+                <div class="con-bg">
+                    <p class="con-p">提示</p>
+                    <div class="con-body">密码邮件已经发送至用户邮箱请注意查收</div>
+                    <div class="con-footer"><button class="con-yes emailYes" @click="sendOutEmail">确认</button></div>
+                </div>
+            </div>
+            <div class="mask" v-show="phoneMaskShow">
+                <div class="con-bg">
+                    <p class="con-p">提示</p>
+                    <div class="con-body">您输入的手机号码有误</div>
+                    <div class="con-footer"><button class="con-yes emailYes" @click="phoneShow">确认</button></div>
+                </div>
+            </div>
+            <div class="mask" v-show="phoneNoneMaskShow">
+                <div class="con-bg">
+                    <p class="con-p">提示</p>
+                    <div class="con-body">您输入的用户不存在</div>
+                    <div class="con-footer"><button class="con-yes emailYes" @click="phoneNone">确认</button></div>
                 </div>
             </div>
         </div>
@@ -45,8 +67,16 @@
     export default{
         data:function(){
             return{
-                show1:false,
-                show2:false
+                tableShow:false,
+                changeMaskShow:false,
+                emailMaskShow:false,
+                phoneMaskShow:false,
+                phoneNoneMaskShow:false,
+                userCompany:"",
+                userName:"",
+                userPhone:"",
+                userEmail:"",
+                selectPhone:""
             }
         },
         components:{
@@ -55,23 +85,46 @@
         },
         methods:{
             ale(){
-                this.show2 = true;
+                this.changeMaskShow = true;
             },
             isShow(){
-               this.show1 = true;
+                if(this.selectPhone != "" && this.selectPhone.length == 11){
+                    axios.get('admin/user/getMsg?phone='+this.selectPhone).then((res)=>{
+                        if(res.data){
+                            this.userCompany = res.data[0].user_company;
+                            this.userName = res.data[0].user_name;
+                            this.userPhone = res.data[0].user_phone;
+                            this.userEmail = res.data[0].user_email;
+                            this.tableShow = true;
+                        }else{
+                            this.phoneNoneMaskShow = true;
+                        }
+                    })
+                }else{
+                    this.phoneMaskShow = true;
+                }
             },
             changepass_yes(){
-                axios.get('admin/user/getMsg').then(function(res){
-                    console.log(res.data);
+                axios.get('admin/user/sendEmail?email='+this.userEmail).then((res)=>{
+                    if(res.data == 1){
+                        this.emailMaskShow = true;
+                    }
                 })
+                this.changeMaskShow = false
             },
             changepass_no(){
-                this.show2 = false
+                this.changeMaskShow = false
+            },
+            sendOutEmail(){
+                this.emailMaskShow = false
+            },
+            phoneShow(){
+                this.phoneMaskShow = false
+            },
+            phoneNone(){
+                this.phoneNoneMaskShow = false
             }
         }
-    }
-    window.confirm = function(){
-
     }
 </script>
 
@@ -198,7 +251,7 @@
         line-height: 20px;
         text-align: center;
     }
-    #mask{
+    .mask{
         top: 0px;
         left: 0px;
         position: fixed;
@@ -238,5 +291,8 @@
         height: 30px;
         margin-left: 20.6%;
         border-radius: 5px;
+    }
+    .emailYes{
+        margin-left: 40.6%;
     }
 </style>
