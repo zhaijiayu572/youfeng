@@ -9,7 +9,8 @@ module.exports = {
         adminProduct: './src/admin/product.js',
         adminOrder: './src/admin/order.js',
         adminMessage: './src/admin/message.js',
-        adminForm: './src/admin/form.js'
+        adminForm: './src/admin/form.js',
+        indexHead: './src/indexHead.js'
     },
     output: {
         /* 输出目录，没有则新建 */

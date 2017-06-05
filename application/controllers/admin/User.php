@@ -39,4 +39,7 @@
      public function index(){
          $this->load->view('admin/user');
      }
+     public function gogo(){
+         $this->load->view('admin/indexHead');
+     }
 }
