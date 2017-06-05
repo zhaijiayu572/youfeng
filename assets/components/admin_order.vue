@@ -1,10 +1,7 @@
 <template>
    <div id="order">
-        <admin-head></admin-head>
-        <admin-panel></admin-panel>
+        
         <admin-right :props="msg">
-            <span slot="delete">批量删除</span>
-            <span slot="add">添加</span>
         </admin-right>
     
    </div>
@@ -29,7 +26,8 @@
         ["订单备注","order_memo"],
         ["支付方式","order_payway"],
         ["创建时间","create_time"],
-        ["结束时间","finish_time"]];       
+        ["结束时间","finish_time"]];
+              
     export default{
         created:function(){
             
@@ -49,11 +47,18 @@
                     "totalNum_url":"order/allNum",//取得全部数据地址
                     "talble_items":table_items,//表单列表项
                     "pageNum":3,//每页显示的数量，如不需要分页则为false
+                    "is_delete_url":"order/allDel",//批量删除的地址，如不需要则为false
+                    "is_delete":false,//单个删除的地址,如不需要则为false
+                    "is_add":true,//true,false
+
                     },
+                deleteData:[],
             }
         },
         methods:{
-            
+            delete_data:function(data){
+                console.log(data);
+            },
         }
     }
 </script>

@@ -24,6 +24,14 @@
       echo json_encode($rs);
     }
 
+    public function allDel(){
+      $value = $this->input->post("value");
+      echo $value;
+    }
 
+    public function del(){
+      $value = $this->input->post("value");
+      echo $value;
+    }
   }
 ?>
