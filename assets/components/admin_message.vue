@@ -1,6 +1,6 @@
 <template>
     <div id="message-page">
-        <suspend></suspend>
+
     <!-- 页面头部-->
         <admin-head></admin-head>
         <div id="container">
@@ -63,7 +63,7 @@
     import axios from 'axios';
     import head from './admin_head.vue';
     import panel from './admin_panel.vue';
-    import suspend from './suspend_box.vue';
+
 
     export default{
         created:function(){
@@ -71,8 +71,7 @@
         },
         components:{
             adminHead:head,
-            adminPanel:panel,
-            suspend:suspend
+            adminPanel:panel
         },
         data:function(){
             return {
