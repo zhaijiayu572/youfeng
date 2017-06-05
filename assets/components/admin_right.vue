@@ -12,22 +12,30 @@
        </div>
        <div class="right_content">
           <div class="content_title">
-             <slot name="delete">asd</slot>
-             <slot name="add"></slot>
+             <template v-if="this.data.is_delete_url!= false">
+                 <span @click="allDel">批量删除</span>
+             </template>
+             <template v-if="data.is_add">
+                 <span>添加</span>
+             </template>
              <span>共有数据：{{totalNum}}条</span>
           </div>
           <div class="content_table">
              <table>
                 <tr>
-                   <td><input type="checkbox"></td>
+                   <td><input type="checkbox" @click="selectAll" v-model="selectFlag"></td>
                    <td v-for="item in data.talble_items" class="table_title">
                       {{item[0].trim()}}
                    </td>
                 </tr>
                 <tr v-for="list in dataList">
-                    <td><input type="checkbox" :value="list[data.talble_items[0][1]]"></td>
+                    <td><input type="checkbox" :value="list[data.talble_items[0][1]]" v-model="deleteData"></td>
                     <td v-for="item in data.talble_items">
                         {{list[item[1]]}}
+                    </td>
+                    <td v-if="data.is_delete != false">
+                        <a href="javascript:;" @click="del(list[data.talble_items[0][1]])">删除</a>
+                        <a href="javascript:;">退款</a>
                     </td>
                 </tr>
              </table>
@@ -152,10 +160,13 @@ export default{
             totalNum: 0,//所有信息数量
             dataList: [],//信息内容
             value:"",//搜索框中的值
-            page:"1",
+            page:"1",//当前页数
+            deleteData:[],//带删除数据
+            selectFlag:[],
             };
     },
     computed:{
+        
         
     },
     methods:{
@@ -175,14 +186,15 @@ export default{
                 prams.append("page",this.page);
                 axios.post(this.data.search_url,prams).then(function(data){
                     this.dataList = data.data;
-                    console.log(this.dataList);
                 }.bind(this));
             }else{//如果不需要分页
                 axios.post(this.data.search_url).then(function(data){
                     this.dataList = data.data;
                 }.bind(this));
             }           
-           this.do_totalNum();      
+           this.do_totalNum();   
+           this.selectFlag.splice(0);   
+           this.deleteData.splice(0);
         },
         first_page:function(){
             this.page = "1";
@@ -204,6 +216,48 @@ export default{
                 this.search();
             }          
         },
+        allDel:function(){
+            //批量删除
+            var prams = new FormData();
+            prams.append("value",this.deleteData);
+            axios.post(this.data.is_delete_url,prams).then(function(data){
+                    //this.dataList = data.data;
+                    var arr = this.deleteData;
+                    for(var i=0;i<arr.length;i++){
+                       this.filterData(arr[i]);
+                    }
+            }.bind(this));
+            
+        },
+        del:function(data){
+            //单个删除
+            var prams = new FormData();
+            var rs = data;
+            prams.append("value",data);
+            axios.post(this.data.is_delete,prams).then(function(data){
+                    this.filterData(rs)
+            }.bind(this));
+        },
+        //全选
+        selectAll:function(){       
+            if(this.selectFlag.length!=0){
+                for(var i= 0;i<this.dataList.length;i++){
+                    var value=this.dataList[i][this.data.talble_items[0][1]];
+                    this.deleteData.push(value);
+                } 
+            }else{
+                this.deleteData.splice(0);
+            }      
+        },
+        //过滤删除数组中的数据
+        filterData:function(data){
+            for(var i = 0;i<this.dataList.length;i++){
+                if(parseInt(data)==parseInt(this.dataList[i][this.data.talble_items[0][1]])){
+                    this.dataList.splice(i,1);
+                }
+            }
+        },
+        
     }
 
 }
