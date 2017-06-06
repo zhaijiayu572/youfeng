@@ -10,7 +10,7 @@ module.exports = {
         adminOrder: './src/admin/order.js',
         adminMessage: './src/admin/message.js',
         adminForm: './src/admin/form.js',
-        indexHead: './src/indexHead.js'
+        index: './src/index.js'
     },
     output: {
         /* 输出目录，没有则新建 */

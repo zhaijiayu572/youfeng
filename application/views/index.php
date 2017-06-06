@@ -11,6 +11,6 @@
 </head>
 <body>
 <div id="app"></div>
-<script src="./assets/js/indexHead.js"></script>
+<script src="./assets/js/index.js"></script>
 </body>
 </html>
