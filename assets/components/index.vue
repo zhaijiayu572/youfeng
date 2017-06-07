@@ -18,6 +18,7 @@
     import head from './indexHead.vue'
     export default{
         components:{
+
             'indexHead':head
         }
     }
