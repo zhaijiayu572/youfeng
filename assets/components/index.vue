@@ -1,16 +1,40 @@
 <template>
     <div>
         <index-head></index-head>
-        <div id="container">
-            <div class="imgList" style="left: -600px;">
-                <img src="../img/1.jpg">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox" id="carouselImgBox">
+                <div class="item active">
+                    <img class="carouselImg" src="../img/1.jpg">
+                </div>
+                <div class="item">
+                    <img class="carouselImg" src="../img/2.jpg">
+                </div>
+                <div class="item">
+                    <img class="carouselImg" src="../img/3.jpg">
+                </div>
+                <div class="item">
+                    <img class="carouselImg" src="../img/4.jpg">
+                </div>
             </div>
-            <div class="circle">
-                <span index="1"></span>
-                <span index="2"></span>
-                <span index="3"></span>
-                <span index="4"></span>
-            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 </template>
@@ -24,28 +48,8 @@
 </script>
 
 <style scoped>
-    #container{
+    #carouselImgBox .item .carouselImg{
         width: 100%;
-        height: 302px;
-    }
-    .imgList img{
-        width: 100%;
-        height: 302px;
-        z-index: 1;
-        float: left;
-    }
-    .circle{
-        z-index: 2;
-        float: left;
-        width: 62px;
-        height: 8px;
-        background-color: #00CC00;
-    }
-    .circle span{
-        float: left;
-        width: 5px;
-        height: 5px;
-        border-radius: 5px;
-        background-color: red;/*#F1F1F1*/
+        height: 400px;
     }
 </style>
