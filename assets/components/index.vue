@@ -36,6 +36,11 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+        <div class="find">
+            <h4>找找你想要的</h4>
+            <input type="text" class="find-input">
+            <p>520大胆爱，低至5.2折!  <span>来找芯网找你所想原件</span></p>
+        </div>
     </div>
 </template>
 <script>
@@ -51,5 +56,31 @@
     #carouselImgBox .item .carouselImg{
         width: 100%;
         height: 400px;
+    }
+    .find h4{
+        text-align: center;
+        font-size: 14px;
+        font-weight: 900;
+        font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    }
+    .find-input{
+        width: 520px;
+        height: 38px;
+        margin-left: 50%;
+        transform: translate(-50%);
+        margin-top: 10px;
+        background: url("../img/find.gif") no-repeat scroll 1% center transparent;
+        padding-left: 40px;
+        font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .find p{
+        font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+        color: #FF0606;
+        text-align: center;
+    }
+    .find p span{
+        color: #A09F9F;
     }
 </style>
